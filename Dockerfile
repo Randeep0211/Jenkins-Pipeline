@@ -1,12 +1,19 @@
-FROM python:3.9
 
-WORKDIR /app/backend
+#Stage-1
+FROM python:3.9 AS baseimg
 
-COPY requirements.txt /app/backend
+WORKDIR /app
+
+COPY requirements.txt
+
 RUN pip install -r requirements.txt
 
-COPY . /app/backend
+COPY . .
 
-EXPOSE 8000
+# Stage-2
+FROM python:3.9-slim
 
-CMD python /app/backend/manage.py runserver 0.0.0.0:8000
+WORKDIR /app
+
+COPY --from=baseimg /usr/local/lib/python3.9/site-packages/ /usr/local/lib/python3.9/site-packages/
+COPY --from=baseimg /app /app

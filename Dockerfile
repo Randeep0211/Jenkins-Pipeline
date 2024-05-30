@@ -4,7 +4,7 @@ FROM python:3.9 AS baseimg
 
 WORKDIR /app
 
-COPY requirements.txt
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
